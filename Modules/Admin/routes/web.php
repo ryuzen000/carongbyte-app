@@ -22,6 +22,10 @@ Route::group([], function () {
     Route::resource('admin', AdminController::class)->names('admin');
 });
 
+Route::get('dashboard', function () {
+    return view('admin::dashboard');
+});
+
 Route::name('admin.')->group(function () {
     Route::middleware(CheckAuth::class)->group(function () {
         Route::prefix('carong-admin')->group(function () {
