@@ -18,9 +18,9 @@ use Illuminate\Support\Facades\Session;
 |
 */
 
-Route::group([], function () {
+/*Route::group([], function () {
     Route::resource('admin', AdminController::class)->names('admin');
-});
+});*/
 
 Route::get('dashboard', function () {
     return view('admin::dashboard');
@@ -29,11 +29,7 @@ Route::get('dashboard', function () {
 Route::name('admin.')->group(function () {
     Route::middleware(CheckAuth::class)->group(function () {
         Route::prefix('carong-admin')->group(function () {
-            Route::get('/', function () {
-                return "Hello, World!";
-            })->name('index');
-
-            //Route::get('/', [AdminController::class, 'index'])->name('index');
+            Route::get('/', [AdminController::class, 'index'])->name('index');
 
             //Route::get('operators', [AdminController::class, 'operators'])->name('operators');
         });
@@ -81,7 +77,7 @@ Route::name('login-register.')->group(function () {
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->intended('admin');
+            return redirect()->intended('carong-admin');
         }
 
         return back()->withErrors([
