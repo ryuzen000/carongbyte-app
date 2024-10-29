@@ -3,9 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use Modules\Admin\Http\Controllers\AdminController;
 use Modules\Admin\Http\Middleware\CheckAuthMiddleware as CheckAuth;
+use Modules\Admin\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Hash;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +35,16 @@ Route::name('admin.')->group(function () {
 
             //Route::get('operators', [AdminController::class, 'operators'])->name('operators');
         });
+
+        /*Route::prefix('new-user')->group(function () {
+            $user = User::create([
+                'name'     => 'Charles Xavier',
+                'email'    => 'charles@xmen.com',
+                'password' => Hash::make('admin')
+            ]);
+
+            return $user;
+        });*/
 
         /*Route::prefix('operator')->group(function () {
             Route::get('/', [OperatorsController::class, 'index'])->name('operator.index');

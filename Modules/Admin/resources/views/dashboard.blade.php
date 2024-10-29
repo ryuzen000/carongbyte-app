@@ -192,7 +192,7 @@
                             class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">Alexander Pierce</a>
+                        <a href="#" class="d-block">{{ $data['nama'] }}</a>
                     </div>
                 </div>
 
@@ -556,6 +556,11 @@
                 <div class="container-fluid">
                     <!-- Main row -->
                     <div class="row">
+                        <pre>
+                        @php
+                            print_r($users);
+                        @endphp
+                        </pre>
                         Wkwkwk
                         <br><br><br><br><br><br><br><br><br><br>
                         <br><br><br><br><br><br><br><br><br><br>
