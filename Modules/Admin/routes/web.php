@@ -28,6 +28,10 @@ Route::get('dashboard', function () {
     return view('admin::dashboard');
 });
 
+Route::get('cr-test', function () {
+    return cr_test();
+});
+
 Route::name('admin.')->group(function () {
     Route::middleware(CheckAuth::class)->group(function () {
         Route::prefix('carong-admin')->group(function () {

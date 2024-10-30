@@ -10,9 +10,7 @@
     "extra": {
         "laravel": {
             "providers": [],
-            "aliases": {
-
-            }
+            "aliases": {}
         }
     },
     "autoload": {
@@ -20,7 +18,10 @@
             "Modules\\Admin\\": "app/",
             "Modules\\Admin\\Database\\Factories\\": "database/factories/",
             "Modules\\Admin\\Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "app/Helpers/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
