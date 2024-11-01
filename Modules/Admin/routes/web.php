@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Admin\Http\Controllers\AdminController;
+use Modules\Admin\Http\Controllers\ProfileController;
 use Modules\Admin\Http\Middleware\CheckAuthMiddleware as CheckAuth;
 use Modules\Admin\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -38,7 +39,18 @@ Route::name('admin.')->group(function () {
             Route::get('/', [AdminController::class, 'index'])->name('index');
 
             //Route::get('operators', [AdminController::class, 'operators'])->name('operators');
+
+            Route::prefix('profile')->group(function () {
+                Route::get('/', [ProfileController::class, 'index'])->name('profile.index');
+                Route::get('edit', function () {
+                    return "Edit Page";
+                })->name('profile.edit');
+            });
         });
+
+        Route::get('user', function () {
+            return view('admin::user');
+        })->name('user');
 
         /*Route::prefix('new-user')->group(function () {
             $user = User::create([

@@ -113,18 +113,13 @@
                 <div class="container-fluid">
                     <!-- Main row -->
                     <div class="row">
-                        <pre>
                         @php
-                            print_r($users);
+                            $navbars = cr_nav_items();
                         @endphp
+                        <pre>
+                            {{ print_r($navbars) }}
                         </pre>
-                        Wkwkwk
-                        <br><br><br><br><br><br><br><br><br><br>
-                        <br><br><br><br><br><br><br><br><br><br>
-                        <br><br><br><br><br><br><br><br><br><br>
-                        <br><br><br><br><br><br><br><br><br><br>
-                        <br><br><br><br><br><br><br><br><br><br>
-                        Wkwkwk
+                        <p>Hello, World</p>
                     </div>
                     <!-- /.row (main row) -->
                 </div><!-- /.container-fluid -->
