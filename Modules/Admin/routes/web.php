@@ -33,26 +33,34 @@ Route::get('cr-test', function () {
     return cr_test();
 });
 
-Route::name('admin.')->group(function () {
-    Route::middleware(CheckAuth::class)->group(function () {
-        Route::prefix('carong-admin')->group(function () {
-            Route::get('/', [AdminController::class, 'index'])->name('index');
+Route::group(['namespace' => 'Modules\Admin\Http\Controllers'], function () {
+    Route::name('admin.')->group(function () {
+        Route::middleware(CheckAuth::class)->group(function () {
+            Route::prefix('carong-admin')->group(function () {
+                //Route::get('/', [AdminController::class, 'index'])->name('index');
+                Route::get('', function () {
+                    return redirect()->route('admin.dashboard');
+                })->name('index');
+                Route::get('dashboard', [
+                    'as'   => 'dashboard',
+                    'uses' => 'AdminController@index',
+                ]);
 
-            //Route::get('operators', [AdminController::class, 'operators'])->name('operators');
+                //Route::get('operators', [AdminController::class, 'operators'])->name('operators');
 
-            Route::prefix('profile')->group(function () {
-                Route::get('/', [ProfileController::class, 'index'])->name('profile.index');
-                Route::get('edit', function () {
-                    return "Edit Page";
-                })->name('profile.edit');
+                Route::prefix('profile')->group(function () {
+                    Route::get('/', [ProfileController::class, 'index'])->name('profile.index');
+                    Route::get('edit', function () {
+                        return "Edit Page";
+                    })->name('profile.edit');
+                });
+
+                Route::get('user', function () {
+                    return view('admin::user');
+                })->name('user');
             });
-        });
 
-        Route::get('user', function () {
-            return view('admin::user');
-        })->name('user');
-
-        /*Route::prefix('new-user')->group(function () {
+            /*Route::prefix('new-user')->group(function () {
             $user = User::create([
                 'name'     => 'Charles Xavier',
                 'email'    => 'charles@xmen.com',
@@ -62,7 +70,7 @@ Route::name('admin.')->group(function () {
             return $user;
         });*/
 
-        /*Route::prefix('operator')->group(function () {
+            /*Route::prefix('operator')->group(function () {
             Route::get('/', [OperatorsController::class, 'index'])->name('operator.index');
             Route::get('/new', [OperatorsController::class, 'new'])->name('operator.new');
             Route::post('/store', [OperatorsController::class, 'store'])->name('operator.store');
@@ -84,6 +92,7 @@ Route::name('admin.')->group(function () {
                 ]);
             });
         });*/
+        });
     });
 });
 

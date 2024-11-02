@@ -29,7 +29,7 @@ if (!function_exists('cr_nav_items')) {
         $result = [
             [
                 'name'  => 'Dashboard',
-                'route' => 'admin.index',
+                'route' => 'admin.dashboard',
                 'icon'  => 'fas fa-tachometer-alt'
             ],
             [
