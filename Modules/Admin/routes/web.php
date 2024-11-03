@@ -49,10 +49,15 @@ Route::group(['namespace' => 'Modules\Admin\Http\Controllers'], function () {
                 //Route::get('operators', [AdminController::class, 'operators'])->name('operators');
 
                 Route::prefix('profile')->group(function () {
-                    Route::get('/', [ProfileController::class, 'index'])->name('profile.index');
-                    Route::get('edit', function () {
-                        return "Edit Page";
-                    })->name('profile.edit');
+                    Route::get('', [
+                        'as'   => 'profile.index',
+                        'uses' => 'ProfileController@index',
+                    ]);
+
+                    Route::match(['get', 'post'], 'edit', [
+                        'as'   => 'profile.edit',
+                        'uses' => 'ProfileController@edit',
+                    ]);
                 });
 
                 Route::get('user', function () {

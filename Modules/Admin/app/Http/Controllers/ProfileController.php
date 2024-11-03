@@ -4,6 +4,9 @@ namespace Modules\Admin\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Modules\Admin\Models\User;
 
 class ProfileController extends Controller
 {
@@ -12,7 +15,11 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        return "Hello, World!";
+        $user = User::find(Auth::id());
+        return view('admin::profile.index', [
+            'name'  => $user->name,
+            'email' => $user->email,
+        ]);
     }
 
     /**
@@ -42,9 +49,31 @@ class ProfileController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
-        return view('admin::edit');
+        $user = User::find(Auth::id());
+
+        if ($request->exists('user_name')) {
+            $file = $request->file('product_image');
+            $nama_file = time() . "_" . $file->getClientOriginalName();
+            $path = 'uploads';
+            $file->move($path, "user/" . $nama_file);
+
+            $user->name = $request->user_name;
+
+            DB::table('usermeta')
+                ->updateOrInsert(
+                    ['user_id' => Auth::id(), 'key' => 'cr_user_foto'],
+                    ['user_id' => Auth::id(), 'key' => 'cr_user_foto', 'value' => $nama_file]
+                );
+
+            $user->save();
+        }
+
+        return view('admin::profile.edit', [
+            'name'  => $user->name,
+            'email' => $user->email,
+        ]);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 use Modules\Admin\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 /**
  * 
@@ -20,6 +21,17 @@ if (!function_exists('cr_auth_name')) {
     {
         $user = User::find(Auth::id());
         return $user->name;
+    }
+}
+
+if (!function_exists('cr_auth_foto')) {
+    function cr_auth_foto()
+    {
+        $users = DB::table('usermeta')
+                ->where('user_id', '=', Auth::id())
+                ->get();
+
+        return $users[0]->value;
     }
 }
 
