@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Modules\Admin\Models\User;
 
 class ProfileController extends Controller
@@ -75,6 +76,27 @@ class ProfileController extends Controller
 
             $user->save();
         }
+
+        /**
+         * 
+         * 
+         * @source https://dcodemania.com/post/crud-application-image-upload-laravel-8
+         * @source https://stackoverflow.com/questions/56231229/how-can-i-update-image-in-edit-view-in-laravel
+         */
+        /*
+        $imageName = '';
+        if ($request->hasFile('file')) {
+            $imageName = time() . '.' . $request->file->extension();
+            $request->file->storeAs('public/images', $imageName);
+            if ($post->image) {
+                Storage::delete('public/images/' . $post->image);
+            }
+        } else {
+            $imageName = $post->image;
+        }
+        $postData = ['title' => $request->title, 'category' => $request->category, 'content' => $request->content, 'image' => $imageName];
+        $post->update($postData);
+        */
 
         return view('admin::profile.edit', [
             'name'  => $user->name,
