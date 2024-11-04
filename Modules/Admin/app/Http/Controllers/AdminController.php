@@ -28,7 +28,7 @@ class AdminController extends Controller
             ->select('users.name as nama_pengguna', 'roles.name as nama_jabatan')
             ->get();
 
-        return view('admin::dashboard', [
+        return view('admin::dashboard.index', [
             'data' => $result,
             'users' => $users
         ]);

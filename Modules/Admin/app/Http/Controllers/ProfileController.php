@@ -53,6 +53,12 @@ class ProfileController extends Controller
     {
         $user = User::find(Auth::id());
 
+        $db_user = DB::table('usermeta')
+            ->where('user_id', '=', Auth::id())
+            ->where('key', '=', 'cr_user_foto')
+            ->get();
+        $foto = $db_user[0]->value;
+
         if ($request->exists('user_name')) {
             $file = $request->file('product_image');
             $nama_file = time() . "_" . $file->getClientOriginalName();
@@ -73,6 +79,7 @@ class ProfileController extends Controller
         return view('admin::profile.edit', [
             'name'  => $user->name,
             'email' => $user->email,
+            'foto'  => $foto,
         ]);
     }
 

@@ -61,7 +61,7 @@ Route::group(['namespace' => 'Modules\Admin\Http\Controllers'], function () {
                 });
 
                 Route::get('user', function () {
-                    return view('admin::user');
+                    return view('admin::user.index');
                 })->name('user');
             });
 
