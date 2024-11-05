@@ -28,10 +28,28 @@ if (!function_exists('cr_auth_foto')) {
     function cr_auth_foto()
     {
         $users = DB::table('usermeta')
-                ->where('user_id', '=', Auth::id())
-                ->get();
+            ->where('user_id', '=', Auth::id())
+            ->where('key', '=', 'cr_user_foto')
+            ->get();
 
         return $users[0]->value;
+    }
+}
+
+if (!function_exists('cr_get_usermeta')) {
+    function cr_get_usermeta($user_id, $key)
+    {
+        $prefix = "cr_";
+        $result = null;
+
+        if ($user_id && $key) {
+            $result = DB::table('usermeta')
+                ->where('user_id', '=', $user_id)
+                ->where('key', '=', $prefix . $key)
+                ->get();
+        }
+
+        return $result[0]->value;
     }
 }
 

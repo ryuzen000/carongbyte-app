@@ -6,7 +6,10 @@
 
 @section('title', $title)
 
+@section('breadcrumb_title', 'Profile')
+
 @section('content')
+    {{-- Ini comment di blade --}}
     <style>
         .cr-user-avatar .inner .avatar {
             overflow: hidden;
@@ -25,13 +28,6 @@
             padding: 0
         }
     </style>
-    <div>Profile page</div>
-    @php
-        $foto = cr_auth_foto();
-    @endphp
-    <pre>
-        {{ print_r(cr_auth_foto()) }}
-    </pre>
     <a href="{{ route('admin.profile.edit') }}">Edit Profile</a>
     <div class="row">
         <div class="col-12 col-md-2">
@@ -48,6 +44,7 @@
                 <ul>
                     <li><b>Name</b>: {{ $name }}</li>
                     <li><b>Email</b>: {{ $email }}</li>
+                    <li><b>Address</b>: {{ cr_get_usermeta(Auth::id(), 'user_alamat') }}</li>
                 </ul>
             </div>
         </div>

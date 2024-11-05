@@ -39,6 +39,12 @@
             <small id="userEmailHelp" class="form-text text-muted">Lorem ipsum.</small>
         </div>
         <div class="form-group">
+            <label for="frmInputUserAddress">Address</label>
+            <input type="text" class="form-control" id="frmInputUserAddress" aria-describedby="userAddressHelp"
+                name="user_email" value="">
+            <small id="userAddressHelp" class="form-text text-muted">Lorem ipsum.</small>
+        </div>
+        <div class="form-group">
             <div class="cr-avatar-preview">
                 <div class="thumb rounded shadow">
                     <img src="{{ asset('uploads/' . $foto) }}" alt="">
