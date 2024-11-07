@@ -49,7 +49,11 @@ if (!function_exists('cr_get_usermeta')) {
                 ->get();
         }
 
-        return $result[0]->value;
+        if ($result->isNotEmpty()) {
+            return $result[0]->value;
+        } else {
+            return "";
+        }
     }
 }
 
