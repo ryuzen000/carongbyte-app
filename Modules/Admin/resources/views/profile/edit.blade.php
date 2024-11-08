@@ -41,7 +41,7 @@
         <div class="form-group">
             <label for="frmInputUserAddress">Address</label>
             <input type="text" class="form-control" id="frmInputUserAddress" aria-describedby="userAddressHelp"
-                name="user_email" value="">
+                name="user_address" value="{{ cr_get_usermeta(Auth::id(), 'user_alamat') }}">
             <small id="userAddressHelp" class="form-text text-muted">Lorem ipsum.</small>
         </div>
         <div class="form-group">
@@ -54,6 +54,6 @@
             <label for="frmInputImage">Featured Image</label><br>
             <input type="file" id="frmInputImage" name="product_image">
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary" name="frm_submit" value="1">Update</button>
     </form>
 @endsection

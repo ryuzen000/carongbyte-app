@@ -61,19 +61,23 @@ class ProfileController extends Controller
         $foto = $db_user[0]->value;
 
         if ($request->exists('user_name')) {
+            $user->name = $request->user_name;
+        }
+
+        if ($request->exists('product_image')) {
             $file = $request->file('product_image');
             $nama_file = time() . "_" . $file->getClientOriginalName();
             $path = 'uploads';
-            $file->move($path, "user/" . $nama_file);
-
-            $user->name = $request->user_name;
+            $file->move($path, $nama_file);
 
             DB::table('usermeta')
                 ->updateOrInsert(
                     ['user_id' => Auth::id(), 'key' => 'cr_user_foto'],
                     ['user_id' => Auth::id(), 'key' => 'cr_user_foto', 'value' => $nama_file]
                 );
+        }
 
+        if ($request->frm_submit == 1) {
             $user->save();
         }
 
