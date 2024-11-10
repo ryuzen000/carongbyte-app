@@ -27,22 +27,22 @@
     <form action="{{ route('admin.profile.edit') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
-            <label for="frmInputUserName">Name</label>
-            <input type="text" class="form-control" id="frmInputUserName" aria-describedby="userNameHelp" name="user_name"
+            <label for="frmInputName">Name</label>
+            <input type="text" class="form-control" id="frmInputName" aria-describedby="nameHelp" name="name"
                 value="{{ $name }}">
-            <small id="userNameHelp" class="form-text text-muted">Lorem ipsum.</small>
+            <small id="nameHelp" class="form-text text-muted">Lorem ipsum.</small>
         </div>
         <div class="form-group">
-            <label for="frmInputUserEmail">Email</label>
-            <input type="text" class="form-control" id="frmInputUserEmail" aria-describedby="userEmailHelp"
-                name="user_email" value="{{ $email }}">
-            <small id="userEmailHelp" class="form-text text-muted">Lorem ipsum.</small>
+            <label for="frmInputEmail">Email</label>
+            <input type="text" class="form-control" id="frmInputEmail" aria-describedby="emailHelp" name="email"
+                value="{{ $email }}">
+            <small id="emailHelp" class="form-text text-muted">Lorem ipsum.</small>
         </div>
         <div class="form-group">
-            <label for="frmInputUserAddress">Address</label>
-            <input type="text" class="form-control" id="frmInputUserAddress" aria-describedby="userAddressHelp"
-                name="user_address" value="{{ cr_get_usermeta(Auth::id(), 'user_alamat') }}">
-            <small id="userAddressHelp" class="form-text text-muted">Lorem ipsum.</small>
+            <label for="frmInputAddress">Address</label>
+            <input type="text" class="form-control" id="frmInputAddress" aria-describedby="addressHelp" name="address"
+                value="{{ cr_get_usermeta(Auth::id(), 'user_alamat') }}">
+            <small id="addressHelp" class="form-text text-muted">Lorem ipsum.</small>
         </div>
         <div class="form-group">
             <div class="cr-avatar-preview">

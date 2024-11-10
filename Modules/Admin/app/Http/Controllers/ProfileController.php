@@ -60,8 +60,20 @@ class ProfileController extends Controller
             ->get();
         $foto = $db_user[0]->value;
 
-        if ($request->exists('user_name')) {
-            $user->name = $request->user_name;
+        if ($request->exists('name')) {
+            $user->name = $request->name;
+        }
+
+        if ($request->exists('email')) {
+            $user->email = $request->email;
+        }
+
+        if ($request->exists('address')) {
+            DB::table('usermeta')
+                ->updateOrInsert(
+                    ['user_id' => Auth::id(), 'key' => 'cr_user_alamat'],
+                    ['user_id' => Auth::id(), 'key' => 'cr_user_alamat', 'value' => $request->address]
+                );
         }
 
         if ($request->exists('product_image')) {
