@@ -6,6 +6,8 @@
 
 @section('title', $title)
 
+@section('breadcrumb_title', 'Edit Profile')
+
 @section('content')
     <style>
         .cr-avatar-preview {
