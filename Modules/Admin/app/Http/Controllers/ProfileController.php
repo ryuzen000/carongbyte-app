@@ -52,6 +52,12 @@ class ProfileController extends Controller
      */
     public function edit(Request $request)
     {
+        /*$request->validate([
+            'name'          => 'max:255',
+            'email'         => 'unique:users|max:255',
+            'product_image' => 'mimes:jpg|max:2048',
+        ]);*/
+
         $user = User::find(Auth::id());
 
         $db_user = DB::table('usermeta')
@@ -77,15 +83,15 @@ class ProfileController extends Controller
         }
 
         if ($request->exists('product_image')) {
-            $file = $request->file('product_image');
-            $nama_file = time() . "_" . $file->getClientOriginalName();
-            $path = 'uploads';
-            $file->move($path, $nama_file);
+            $file      = $request->file('product_image');
+            $file_name = time() . "_" . str_replace(" ", "-", strtolower($user->name)) . ".jpg"; /*$file->getClientOriginalName();*/
+            $path      = 'uploads';
+            $file->move($path, $file_name);
 
             DB::table('usermeta')
                 ->updateOrInsert(
                     ['user_id' => Auth::id(), 'key' => 'cr_user_foto'],
-                    ['user_id' => Auth::id(), 'key' => 'cr_user_foto', 'value' => $nama_file]
+                    ['user_id' => Auth::id(), 'key' => 'cr_user_foto', 'value' => $file_name]
                 );
         }
 
