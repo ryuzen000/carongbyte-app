@@ -58,6 +58,11 @@ class ProfileController extends Controller
             'product_image' => 'mimes:jpg|max:2048',
         ]);*/
 
+        $validated = $request->validate([
+            'email'         => 'email:rfc,dns|max:255',
+            'product_image' => 'mimes:jpg|max:2048',
+        ]);
+
         $user = User::find(Auth::id());
 
         $db_user = DB::table('usermeta')

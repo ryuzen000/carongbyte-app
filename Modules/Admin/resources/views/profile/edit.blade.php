@@ -10,6 +10,12 @@
 
 @section('content')
     <style>
+        .cr-alert ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
         .cr-avatar-preview {
             width: 100px;
             height: 100px;
@@ -26,6 +32,15 @@
             height: auto;
         }
     </style>
+    @if ($errors->any())
+        <div class="cr-alert alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <form action="{{ route('admin.profile.edit') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
