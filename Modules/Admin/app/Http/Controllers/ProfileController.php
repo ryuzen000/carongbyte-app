@@ -132,6 +132,11 @@ class ProfileController extends Controller
         ]);
     }
 
+    public function change_password(Request $request)
+    {
+        return "Change your password?";
+    }
+
     /**
      * Update the specified resource in storage.
      */

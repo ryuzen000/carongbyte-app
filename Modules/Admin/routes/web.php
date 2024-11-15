@@ -58,6 +58,11 @@ Route::group(['namespace' => 'Modules\Admin\Http\Controllers'], function () {
                         'as'   => 'profile.edit',
                         'uses' => 'ProfileController@edit',
                     ]);
+
+                    Route::match(['get', 'post'], 'change-password', [
+                        'as'   => 'profile.change-password',
+                        'uses' => 'ProfileController@change_password',
+                    ]);
                 });
 
                 Route::get('user', function () {
