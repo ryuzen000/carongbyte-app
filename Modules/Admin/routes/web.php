@@ -116,12 +116,18 @@ Route::name('login-register.')->group(function () {
     })->name('login');
 
     Route::post('/login', function (Request $request) {
+        /*
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
 
-        if (Auth::attempt($credentials)) {
+        $username = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+
+        if (Auth::attempt($credentials) || Auth::attempt($username)) {
             $request->session()->regenerate();
 
             return redirect()->intended('carong-admin');
@@ -130,6 +136,30 @@ Route::name('login-register.')->group(function () {
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ])->onlyInput('email');
+        */
+
+        // pembatas
+        $login = $request->input('email');
+        $user = User::where('email', $login)->orWhere('username', $login)->first();
+
+        if (!$user) {
+            return redirect()->back()->withErrors(['email' => 'Invalid login credentials']);
+        }
+
+        $request->validate([
+            'password' => 'required|min:8',
+        ]);
+
+        if (
+            Auth::attempt(['email' => $user->email, 'password' => $request->password]) ||
+            Auth::attempt(['username' => $user->username, 'password' => $request->password])
+        ) {
+            $request->session()->regenerate();
+
+            return redirect()->intended('carong-admin');
+        } else {
+            return redirect()->back()->withErrors(['password' => 'Invalid login credentials']);
+        }
     })->name('authenticate');
 });
 

@@ -49,4 +49,5 @@
             </div>
         </div>
     </div>
+    <a href="{{ route('admin.profile.change-password') }}">Ubah Password</a>
 @endsection
