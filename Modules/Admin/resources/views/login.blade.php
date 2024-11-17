@@ -29,11 +29,20 @@
 
                 <form action="/login" method="post">
                     @csrf
+                    @if ($errors->any())
+                        <div class="cr-alert alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     @error('email')
                         <div class="mb-2 alert alert-danger">{{ $message }}</div>
                     @enderror
                     <div class="input-group mb-3">
-                        <input type="text" name="email" class="form-control" placeholder="Email">
+                        <input type="text" name="email" class="form-control" placeholder="Email/Username">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
@@ -64,6 +73,10 @@
                         <!-- /.col -->
                     </div>
                 </form>
+
+                <div>{{ isset($username) ? $username : null }}</div>
+                <div>{{ isset($password) ? $password : null }}</div>
+                <div>{{ isset($user) ? print_r($user) : null }}</div>
 
                 <div class="social-auth-links text-center mb-3">
                     <p>- OR -</p>

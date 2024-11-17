@@ -139,7 +139,7 @@ Route::name('login-register.')->group(function () {
         */
 
         // pembatas
-        $login = $request->input('email');
+        /*$login = $request->input('email');
         $user = User::where('email', $login)->orWhere('username', $login)->first();
 
         if (!$user) {
@@ -159,7 +159,46 @@ Route::name('login-register.')->group(function () {
             return redirect()->intended('carong-admin');
         } else {
             return redirect()->back()->withErrors(['password' => 'Invalid login credentials']);
+        }*/
+
+        $messages = [
+            "email.required" => "Email is required",
+            "email.email" => "Email is not valid",
+            "email.exists" => "Email doesn't exists",
+            "password.required" => "Kolom password tidak boleh kosong!",
+            "password.min" => "Password must be at least 6 characters"
+        ];
+
+        $username = isset($request->email) ? $request->email : null;
+        $password = isset($request->password) ? $request->password : null;
+
+        $user = User::where('email', $username)->orWhere('username', $username)->first();
+
+        if (!$user) {
+            return redirect()->back()->withErrors(['email' => 'Invalid login credentials']);
         }
+
+        $request->validate([
+            'email'    => 'required',
+            'password' => 'required',
+        ], $messages);
+
+        if (
+            Auth::attempt(['email' => $user->email, 'password' => $password]) ||
+            Auth::attempt(['username' => $user->username, 'password' => $password])
+        ) {
+            $request->session()->regenerate();
+
+            return redirect()->intended('carong-admin');
+        } else {
+            return redirect()->back()->withErrors(['password' => 'Invalid login credentials']);
+        }
+
+        /*return view('admin::login', [
+            'username' => $username,
+            'password' => $password,
+            'user'     => isset($username) && empty($user) ? "Email/Username tidak ditemukan" : $user,
+        ]);*/
     })->name('authenticate');
 });
 
