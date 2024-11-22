@@ -38,9 +38,6 @@
                             </ul>
                         </div>
                     @endif
-                    @error('email')
-                        <div class="mb-2 alert alert-danger">{{ $message }}</div>
-                    @enderror
                     <div class="input-group mb-3">
                         <input type="text" name="email" class="form-control" placeholder="Email/Username">
                         <div class="input-group-append">

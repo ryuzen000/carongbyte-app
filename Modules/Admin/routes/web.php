@@ -162,7 +162,7 @@ Route::name('login-register.')->group(function () {
         }*/
 
         $messages = [
-            "email.required" => "Email is required",
+            "email.required" => "Kolom email/username tidak boleh kosong!",
             "email.email" => "Email is not valid",
             "email.exists" => "Email doesn't exists",
             "password.required" => "Kolom password tidak boleh kosong!",
@@ -175,7 +175,7 @@ Route::name('login-register.')->group(function () {
         $user = User::where('email', $username)->orWhere('username', $username)->first();
 
         if (!$user) {
-            return redirect()->back()->withErrors(['email' => 'Invalid login credentials']);
+            return redirect()->back()->withErrors(['email' => 'Masukan email/username dengan benar!']);
         }
 
         $request->validate([
@@ -191,7 +191,7 @@ Route::name('login-register.')->group(function () {
 
             return redirect()->intended('carong-admin');
         } else {
-            return redirect()->back()->withErrors(['password' => 'Invalid login credentials']);
+            return redirect()->back()->withErrors(['password' => 'Password salah!']);
         }
 
         /*return view('admin::login', [
