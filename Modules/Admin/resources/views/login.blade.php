@@ -15,6 +15,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/icheck-bootstrap/3.0.1/icheck-bootstrap.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.2.0/css/adminlte.min.css">
+    <style>
+        .cr-alert ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+    </style>
 </head>
 
 <body class="hold-transition login-page">
@@ -39,7 +46,7 @@
                         </div>
                     @endif
                     <div class="input-group mb-3">
-                        <input type="text" name="email" class="form-control" placeholder="Email/Username">
+                        <input type="text" name="email" class="form-control" placeholder="Email/Username" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
@@ -47,7 +54,7 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" name="password" class="form-control" placeholder="Password">
+                        <input type="password" name="password" class="form-control" placeholder="Password" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
@@ -71,11 +78,11 @@
                     </div>
                 </form>
 
-                <div>{{ isset($username) ? $username : null }}</div>
+                <!--<div>{{ isset($username) ? $username : null }}</div>
                 <div>{{ isset($password) ? $password : null }}</div>
-                <div>{{ isset($user) ? print_r($user) : null }}</div>
+                <div>{{ isset($user) ? print_r($user) : null }}</div>-->
 
-                <div class="social-auth-links text-center mb-3">
+                <!--<div class="social-auth-links text-center mb-3">
                     <p>- OR -</p>
                     <a href="#" class="btn btn-block btn-primary">
                         <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
@@ -83,15 +90,15 @@
                     <a href="#" class="btn btn-block btn-danger">
                         <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
                     </a>
-                </div>
+                </div>-->
                 <!-- /.social-auth-links -->
 
                 <p class="mb-1">
                     <a href="forgot-password.html">I forgot my password</a>
                 </p>
-                <p class="mb-0">
+                <!--<p class="mb-0">
                     <a href="register.html" class="text-center">Register a new membership</a>
-                </p>
+                </p>-->
             </div>
             <!-- /.login-card-body -->
         </div>

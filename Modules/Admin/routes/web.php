@@ -116,58 +116,13 @@ Route::name('login-register.')->group(function () {
     })->name('login');
 
     Route::post('/login', function (Request $request) {
-        /*
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
-
-        $username = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
-
-        if (Auth::attempt($credentials) || Auth::attempt($username)) {
-            $request->session()->regenerate();
-
-            return redirect()->intended('carong-admin');
-        }
-
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ])->onlyInput('email');
-        */
-
-        // pembatas
-        /*$login = $request->input('email');
-        $user = User::where('email', $login)->orWhere('username', $login)->first();
-
-        if (!$user) {
-            return redirect()->back()->withErrors(['email' => 'Invalid login credentials']);
-        }
-
-        $request->validate([
-            'password' => 'required|min:8',
-        ]);
-
-        if (
-            Auth::attempt(['email' => $user->email, 'password' => $request->password]) ||
-            Auth::attempt(['username' => $user->username, 'password' => $request->password])
-        ) {
-            $request->session()->regenerate();
-
-            return redirect()->intended('carong-admin');
-        } else {
-            return redirect()->back()->withErrors(['password' => 'Invalid login credentials']);
-        }*/
-
-        $messages = [
+        /*$messages = [
             "email.required" => "Kolom email/username tidak boleh kosong!",
             "email.email" => "Email is not valid",
             "email.exists" => "Email doesn't exists",
             "password.required" => "Kolom password tidak boleh kosong!",
             "password.min" => "Password must be at least 6 characters"
-        ];
+        ];*/
 
         $username = isset($request->email) ? $request->email : null;
         $password = isset($request->password) ? $request->password : null;
@@ -175,13 +130,13 @@ Route::name('login-register.')->group(function () {
         $user = User::where('email', $username)->orWhere('username', $username)->first();
 
         if (!$user) {
-            return redirect()->back()->withErrors(['email' => 'Masukan email/username dengan benar!']);
+            return redirect()->back()->withErrors(['email' => 'email/username tidak ditemukan']);
         }
 
         $request->validate([
             'email'    => 'required',
             'password' => 'required',
-        ], $messages);
+        ]/*, $messages*/);
 
         if (
             Auth::attempt(['email' => $user->email, 'password' => $password]) ||
@@ -191,14 +146,8 @@ Route::name('login-register.')->group(function () {
 
             return redirect()->intended('carong-admin');
         } else {
-            return redirect()->back()->withErrors(['password' => 'Password salah!']);
+            return redirect()->back()->withErrors(['password' => 'password salah!']);
         }
-
-        /*return view('admin::login', [
-            'username' => $username,
-            'password' => $password,
-            'user'     => isset($username) && empty($user) ? "Email/Username tidak ditemukan" : $user,
-        ]);*/
     })->name('authenticate');
 });
 
