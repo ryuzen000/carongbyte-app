@@ -148,7 +148,7 @@ class ProfileController extends Controller
          * Validate all input fields
          * 
          * @source https://stackoverflow.com/questions/50074815/laravel-check-for-old-password-when-change-new-password
-         * 
+         * @source https://www.malasngoding.com/notifikasi-dengan-session-laravel/
          */
         /*$validated = $request->validate([
             'old_password' => 'required',
@@ -162,18 +162,23 @@ class ProfileController extends Controller
 
         $pesan = null;
 
-        if (Hash::check($request->old_password, $user->password)) {
-            $user->fill([
-                'password' => Hash::make($request->new_password)
-            ])->save();
+        if (
+            $request->exists('old_password') &&
+            $request->exists('new_password')
+        ) {
+            if (Hash::check($request->old_password, $user->password)) {
+                $user->fill([
+                    'password' => Hash::make($request->new_password)
+                ])->save();
 
-            //$request->session()->flash('success', 'Password changed');
-            return redirect()->route('admin.profile.index');
-            $pesan = "Password lama benar!";
-        } else {
-            /*$request->session()->flash('error', 'Password does not match');
-            return redirect()->route('admin.profile.change-password');*/
-            $pesan = "Password lama salah!";
+                $request->session()->flash('success', 'Password changed');
+                return redirect()->route('admin.profile.change-password');
+                //$pesan = "Password lama benar!";
+            } else {
+                $request->session()->flash('error', 'Password does not match');
+                return redirect()->route('admin.profile.change-password');
+                //$pesan = "Password lama salah!";
+            }
         }
 
         return view('admin::profile.change_password', ['pesan' => $pesan]);
