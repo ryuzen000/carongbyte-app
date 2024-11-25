@@ -53,6 +53,12 @@ class ProfileController extends Controller
      */
     public function edit(Request $request)
     {
+        /**
+         * 
+         * Untuk project selanjutnya
+         * 
+         * @source https://laracasts.com/discuss/channels/code-review/saving-data-on-click-with-ajax
+         */
         /*$request->validate([
             'name'          => 'max:255',
             'email'         => 'unique:users|max:255',
@@ -135,7 +141,7 @@ class ProfileController extends Controller
 
     public function change_password(Request $request)
     {
-        $user = User::findOrFail(Auth::id());
+        $user = User::find(Auth::id());
 
         /**
          * 
@@ -144,24 +150,33 @@ class ProfileController extends Controller
          * @source https://stackoverflow.com/questions/50074815/laravel-check-for-old-password-when-change-new-password
          * 
          */
-        $validated = $request->validate([
-            'password' => 'required',
+        /*$validated = $request->validate([
+            'old_password' => 'required',
             'new_password' => 'required',
         ]);
 
-        /*if (Hash::check($request->password, $user->password)) {
+        $validated = $request->validate([
+            'old_password'         => 'email:rfc,dns|max:255',
+            'new_password' => 'mimes:jpg|max:2048',
+        ]);*/
+
+        $pesan = null;
+
+        if (Hash::check($request->old_password, $user->password)) {
             $user->fill([
                 'password' => Hash::make($request->new_password)
             ])->save();
 
-            $request->session()->flash('success', 'Password changed');
-            return redirect()->route('admin.profile.change-password');
+            //$request->session()->flash('success', 'Password changed');
+            return redirect()->route('admin.profile.index');
+            $pesan = "Password lama benar!";
         } else {
-            $request->session()->flash('error', 'Password does not match');
-            return redirect()->route('admin.profile.change-password');
-        }*/
+            /*$request->session()->flash('error', 'Password does not match');
+            return redirect()->route('admin.profile.change-password');*/
+            $pesan = "Password lama salah!";
+        }
 
-        return view('admin::profile.change_password');
+        return view('admin::profile.change_password', ['pesan' => $pesan]);
     }
 
     /**

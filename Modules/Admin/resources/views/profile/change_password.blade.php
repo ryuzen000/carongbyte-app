@@ -47,4 +47,6 @@
         </div>
         <button type="submit" class="btn btn-primary" name="frm_submit" value="1">Change</button>
     </form>
+
+    <p>{{ $pesan }}</p>
 @endsection
