@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Modules\Admin\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
@@ -134,7 +135,33 @@ class ProfileController extends Controller
 
     public function change_password(Request $request)
     {
-        return "Change your password?";
+        $user = User::findOrFail(Auth::id());
+
+        /**
+         * 
+         * Validate all input fields
+         * 
+         * @source https://stackoverflow.com/questions/50074815/laravel-check-for-old-password-when-change-new-password
+         * 
+         */
+        $validated = $request->validate([
+            'password' => 'required',
+            'new_password' => 'required',
+        ]);
+
+        /*if (Hash::check($request->password, $user->password)) {
+            $user->fill([
+                'password' => Hash::make($request->new_password)
+            ])->save();
+
+            $request->session()->flash('success', 'Password changed');
+            return redirect()->route('admin.profile.change-password');
+        } else {
+            $request->session()->flash('error', 'Password does not match');
+            return redirect()->route('admin.profile.change-password');
+        }*/
+
+        return view('admin::profile.change_password');
     }
 
     /**
