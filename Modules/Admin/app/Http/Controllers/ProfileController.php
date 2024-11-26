@@ -166,18 +166,28 @@ class ProfileController extends Controller
             $request->exists('old_password') &&
             $request->exists('new_password')
         ) {
-            if (Hash::check($request->old_password, $user->password)) {
-                $user->fill([
-                    'password' => Hash::make($request->new_password)
-                ])->save();
-
-                $request->session()->flash('success', 'Password changed');
+            if (Hash::check($request->new_password, $user->password)) {
+                $request->session()->flash('error', 'Password baru dengan password lama sama');
                 return redirect()->route('admin.profile.change-password');
-                //$pesan = "Password lama benar!";
             } else {
-                $request->session()->flash('error', 'Password does not match');
-                return redirect()->route('admin.profile.change-password');
-                //$pesan = "Password lama salah!";
+                if ($request->new_password == $request->confirm_password) {
+                    if (Hash::check($request->old_password, $user->password)) {
+                        $user->fill([
+                            'password' => Hash::make($request->new_password)
+                        ])->save();
+
+                        $request->session()->flash('success', 'Password changed');
+                        return redirect()->route('admin.profile.change-password');
+                        //$pesan = "Password lama benar!";
+                    } else {
+                        $request->session()->flash('error', 'Password does not match');
+                        return redirect()->route('admin.profile.change-password');
+                        //$pesan = "Password lama salah!";
+                    }
+                } else {
+                    $request->session()->flash('error', 'Konfirmasi password tidak cocok');
+                    return redirect()->route('admin.profile.change-password');
+                }
             }
         }
 
