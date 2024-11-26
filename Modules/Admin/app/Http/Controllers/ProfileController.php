@@ -58,6 +58,7 @@ class ProfileController extends Controller
          * Untuk project selanjutnya
          * 
          * @source https://laracasts.com/discuss/channels/code-review/saving-data-on-click-with-ajax
+         * @source https://laravel.com/docs/11.x/csrf
          */
         /*$request->validate([
             'name'          => 'max:255',
@@ -160,8 +161,6 @@ class ProfileController extends Controller
             'new_password' => 'mimes:jpg|max:2048',
         ]);*/
 
-        $pesan = null;
-
         if (
             $request->exists('old_password') &&
             $request->exists('new_password')
@@ -178,11 +177,9 @@ class ProfileController extends Controller
 
                         $request->session()->flash('success', 'Password changed');
                         return redirect()->route('admin.profile.change-password');
-                        //$pesan = "Password lama benar!";
                     } else {
                         $request->session()->flash('error', 'Password does not match');
                         return redirect()->route('admin.profile.change-password');
-                        //$pesan = "Password lama salah!";
                     }
                 } else {
                     $request->session()->flash('error', 'Konfirmasi password tidak cocok');
@@ -191,7 +188,7 @@ class ProfileController extends Controller
             }
         }
 
-        return view('admin::profile.change_password', ['pesan' => $pesan]);
+        return view('admin::profile.change_password');
     }
 
     /**
