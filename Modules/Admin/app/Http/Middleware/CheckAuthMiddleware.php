@@ -13,8 +13,10 @@ class CheckAuthMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!Auth::check())
+        if (!Auth::check()) {
+            $request->session()->flash('status', 'Untuk mengakses halaman admin login dulu!');
             return redirect('login');
+        }
 
         return $next($request);
     }
