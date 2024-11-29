@@ -142,10 +142,20 @@ class ProfileController extends Controller
 
     public function edit_ajax(Request $request)
     {
-        return response()->json([
-            'name'  => 'Abigail',
-            'state' => 'CA',
-        ]);
+        $user = User::find(Auth::id());
+
+        if ($request->exists('name')) {
+            $user->name = $request->name;
+            $user->save();
+            return response()->json([
+                'name'    => $request->name,
+                'message' => 'Data berhasil di ubah!',
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'Error!',
+            ]);
+        }
     }
 
     public function change_password(Request $request)

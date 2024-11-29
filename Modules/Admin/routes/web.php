@@ -59,6 +59,10 @@ Route::group(['namespace' => 'Modules\Admin\Http\Controllers'], function () {
                         'uses' => 'ProfileController@edit',
                     ]);
 
+                    Route::get('test-form', function () {
+                        return view('admin::profile.test_req');
+                    });
+
                     Route::match(['get', 'post'], 'edit-ajax', [
                         'as'   => 'profile.edit-ajax',
                         'uses' => 'ProfileController@edit_ajax',
