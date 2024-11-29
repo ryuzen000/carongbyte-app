@@ -74,4 +74,22 @@
         </div>
         <button type="submit" class="btn btn-primary" name="frm_submit" value="1">Update</button>
     </form>
+    <script>
+        "use strict";
+
+        jQuery(document).ready(function($) {
+            console.log("jQuery ready!");
+            console.log($('meta[name="csrf-token"]').attr('content'));
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+        });
+
+        let msg = "Hello, World!";
+
+        console.log(msg)
+    </script>
 @endsection

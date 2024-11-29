@@ -140,6 +140,14 @@ class ProfileController extends Controller
         ]);
     }
 
+    public function edit_ajax(Request $request)
+    {
+        return response()->json([
+            'name'  => 'Abigail',
+            'state' => 'CA',
+        ]);
+    }
+
     public function change_password(Request $request)
     {
         $user = User::find(Auth::id());
