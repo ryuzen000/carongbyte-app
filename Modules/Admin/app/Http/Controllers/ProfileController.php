@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Modules\Admin\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Intervention\Image\ImageManager as Image;
+use Intervention\Image\Drivers\Gd\Driver;
+
 
 class ProfileController extends Controller
 {
@@ -96,15 +99,31 @@ class ProfileController extends Controller
         }
 
         if ($request->exists('product_image')) {
-            $file      = $request->file('product_image');
+            /*$file      = $request->file('product_image');
             $file_name = time() . "_" . str_replace(" ", "-", strtolower($user->name)) . ".jpg"; /*$file->getClientOriginalName();*/
-            $path      = 'uploads';
-            $file->move($path, $file_name);
+            /*$path      = 'uploads';
+            $file->move($path, $file_name);*/
+
+            $manager  = new Image(new Driver());
+            $image    = $manager->read($request->file('product_image'));
+            $filename = time() . '_300x300.webp';
+            $image->scale(300);
+            $image->toWebp(65)->save(public_path('uploads/') . $filename);
+
+            /*$file = $request->file('product_image');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $img = Image::make($file);
+            if (Image::make($file)->width() > 720) {
+                $img->resize(200, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+            }
+            $img->save(public_path('upload_file/') . $filename);*/
 
             DB::table('usermeta')
                 ->updateOrInsert(
                     ['user_id' => Auth::id(), 'key' => 'cr_user_foto'],
-                    ['user_id' => Auth::id(), 'key' => 'cr_user_foto', 'value' => $file_name]
+                    ['user_id' => Auth::id(), 'key' => 'cr_user_foto', 'value' => $filename]
                 );
         }
 
