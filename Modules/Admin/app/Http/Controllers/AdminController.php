@@ -22,15 +22,26 @@ class AdminController extends Controller
         $result['id_jabatan'] = $user->roles[0]->id;
         $result['jabatan']    = $user->roles[0]->name;
 
+        /*
+         *
+         * Menampilkan data user lengkap dengan jabatannya 
+         * 
         $users  = DB::table('role_user')
             ->join('roles', 'role_user.role_id', '=', 'roles.id')
             ->join('users', 'role_user.user_id', '=', 'users.id')
             ->select('users.name as nama_pengguna', 'roles.name as nama_jabatan')
             ->get();
+        */
+
+        /**
+         * 
+         * Menampilkan jumlah user
+         */
+        $user_count = DB::table('users')->count();
 
         return view('admin::dashboard.index', [
-            'data' => $result,
-            'users' => $users
+            'data'         => $result,
+            'jml_pengguna' => $user_count,
         ]);
     }
 

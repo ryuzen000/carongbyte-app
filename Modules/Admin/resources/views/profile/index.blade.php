@@ -8,6 +8,13 @@
 
 @section('breadcrumb_title', 'Profile')
 
+@section('breadcrumb_nav')
+    <ol class="breadcrumb float-sm-right">
+        <li class="breadcrumb-item"><a href="{{ route('admin.index') }}">Home</a></li>
+        <li class="breadcrumb-item active">Profile</li>
+    </ol>
+@endsection
+
 @section('content')
     {{-- Ini comment di blade --}}
     <style>

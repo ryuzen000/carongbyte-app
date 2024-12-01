@@ -8,6 +8,14 @@
 
 @section('breadcrumb_title', 'Edit Profile')
 
+@section('breadcrumb_nav')
+    <ol class="breadcrumb float-sm-right">
+        <li class="breadcrumb-item"><a href="{{ route('admin.index') }}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('admin.profile.index') }}">Profile</a></li>
+        <li class="breadcrumb-item active">Edit Profile</li>
+    </ol>
+@endsection
+
 @section('content')
     <style>
         .cr-alert ul {
