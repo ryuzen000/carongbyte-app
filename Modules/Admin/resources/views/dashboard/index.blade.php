@@ -28,7 +28,7 @@
                 <div class="icon">
                     <i class="ion ion-person-add"></i>
                 </div>
-                <a href="{{ route('admin.user') }}" class="small-box-footer">Selengkapnya... <i
+                <a href="{{ route('admin.user.index') }}" class="small-box-footer">Selengkapnya... <i
                         class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>

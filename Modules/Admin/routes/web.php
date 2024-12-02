@@ -74,9 +74,16 @@ Route::group(['namespace' => 'Modules\Admin\Http\Controllers'], function () {
                     ]);
                 });
 
-                Route::get('user', function () {
-                    return view('admin::user.index');
-                })->name('user');
+                Route::prefix('user')->group(function () {
+                    Route::get('', [
+                        'as'   => 'user.index',
+                        'uses' => 'UserController@index',
+                    ]);
+
+                    Route::get('edit/{id}', function (string $id) {
+                        return "Your ID: " . $id;
+                    })->where(['id' => '[0-9]+'])->name('user.edit');
+                });
             });
 
             /*Route::prefix('new-user')->group(function () {

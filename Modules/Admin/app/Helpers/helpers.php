@@ -68,7 +68,7 @@ if (!function_exists('cr_nav_items')) {
             ],
             [
                 'name'  => 'User',
-                'route' => 'admin.user',
+                'route' => 'admin.user.index',
                 'icon'  => 'fas fa-users'
             ]
         ];
