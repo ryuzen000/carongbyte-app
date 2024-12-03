@@ -61,9 +61,22 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(string $id)
     {
-        return view('admin::edit');
+        $user_info = DB::table('role_user')
+            ->join('roles', 'role_user.role_id', '=', 'roles.id')
+            ->join('users', 'role_user.user_id', '=', 'users.id')
+            ->select(
+                'users.id as user_id',
+                'users.name as user_name',
+                'users.email as user_email',
+                'users.username as user_username',
+                'roles.name as role_name'
+            )
+            ->where('users.id', '=', $id)
+            ->get();
+
+        return response()->json($user_info);
     }
 
     /**

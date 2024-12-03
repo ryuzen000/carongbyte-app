@@ -11,6 +11,8 @@ use Modules\Admin\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Intervention\Image\ImageManager as Image;
 use Intervention\Image\Drivers\Gd\Driver;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Validator;
 
 
 class ProfileController extends Controller
@@ -25,30 +27,6 @@ class ProfileController extends Controller
             'name'  => $user->name,
             'email' => $user->email,
         ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('admin::create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Show the specified resource.
-     */
-    public function show($id)
-    {
-        return view('admin::show');
     }
 
     /**
@@ -69,94 +47,133 @@ class ProfileController extends Controller
             'product_image' => 'mimes:jpg|max:2048',
         ]);*/
 
-        $validated = $request->validate([
-            'email'         => 'email:rfc,dns|max:255',
-            'product_image' => 'mimes:jpg,png|max:2048',
-        ]);
-
-        $user = User::find(Auth::id());
-
+        $user    = User::find(Auth::id());
         $db_user = DB::table('usermeta')
             ->where('user_id', '=', Auth::id())
             ->where('key', '=', 'cr_user_foto')
             ->get();
-        $foto = $db_user[0]->value;
+        $foto    = $db_user[0]->value;
 
-        if ($request->exists('name')) {
-            $user->name = $request->name;
-        }
+        if ($request->isMethod('post')) {
+            $user_id   = Auth::id();
+            $validated = $request->validate([
+                'name'          => 'required|max:255',
+                'email'         => "required|unique:users,email,{$user_id}|email:rfc,dns|max:255",
+                'product_image' => 'mimes:jpg,png|max:2048',
+            ]);
 
-        if ($request->exists('email')) {
+            /*if ($request->exists('name')) {
+                
+            }*/
+            $user->name  = $request->name;
             $user->email = $request->email;
-        }
+            $user->save();
 
-        if ($request->exists('address')) {
             DB::table('usermeta')
                 ->updateOrInsert(
                     ['user_id' => Auth::id(), 'key' => 'cr_user_alamat'],
                     ['user_id' => Auth::id(), 'key' => 'cr_user_alamat', 'value' => $request->address]
                 );
-        }
 
-        if ($request->exists('product_image')) {
-            /*$file      = $request->file('product_image');
-            $file_name = time() . "_" . str_replace(" ", "-", strtolower($user->name)) . ".jpg"; /*$file->getClientOriginalName();*/
-            /*$path      = 'uploads';
-            $file->move($path, $file_name);*/
+            if ($request->exists('product_image')) {
+                /*$file      = $request->file('product_image');
+                $file_name = time() . "_" . str_replace(" ", "-", strtolower($user->name)) . ".jpg"; /*$file->getClientOriginalName();*/
+                /*$path      = 'uploads';
+                $file->move($path, $file_name);*/
 
-            $manager  = new Image(new Driver());
-            $image    = $manager->read($request->file('product_image'));
-            $filename = time() . '_300x300.webp';
-            $image->scale(300);
-            $image->toWebp(65)->save(public_path('uploads/') . $filename);
+                $manager  = new Image(new Driver());
+                $image    = $manager->read($request->file('product_image'));
+                $filename = time() . '_300x300.webp';
+                $image->scale(300);
+                $image->toWebp(65)->save(public_path('uploads/') . $filename);
 
-            /*$file = $request->file('product_image');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $img = Image::make($file);
-            if (Image::make($file)->width() > 720) {
-                $img->resize(200, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                });
+                /*$file = $request->file('product_image');
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+                $img = Image::make($file);
+                if (Image::make($file)->width() > 720) {
+                    $img->resize(200, null, function ($constraint) {
+                        $constraint->aspectRatio();
+                    });
+                }
+                $img->save(public_path('upload_file/') . $filename);*/
+
+                DB::table('usermeta')
+                    ->updateOrInsert(
+                        ['user_id' => Auth::id(), 'key' => 'cr_user_foto'],
+                        ['user_id' => Auth::id(), 'key' => 'cr_user_foto', 'value' => $filename]
+                    );
             }
-            $img->save(public_path('upload_file/') . $filename);*/
 
-            DB::table('usermeta')
-                ->updateOrInsert(
-                    ['user_id' => Auth::id(), 'key' => 'cr_user_foto'],
-                    ['user_id' => Auth::id(), 'key' => 'cr_user_foto', 'value' => $filename]
-                );
-        }
-
-        if ($request->frm_submit == 1) {
-            $user->save();
-        }
-
-        /**
-         * 
-         * 
-         * @source https://dcodemania.com/post/crud-application-image-upload-laravel-8
-         * @source https://stackoverflow.com/questions/56231229/how-can-i-update-image-in-edit-view-in-laravel
-         */
-        /*
-        $imageName = '';
-        if ($request->hasFile('file')) {
-            $imageName = time() . '.' . $request->file->extension();
-            $request->file->storeAs('public/images', $imageName);
-            if ($post->image) {
-                Storage::delete('public/images/' . $post->image);
+            /**
+             * 
+             * 
+             * @source https://dcodemania.com/post/crud-application-image-upload-laravel-8
+             * @source https://stackoverflow.com/questions/56231229/how-can-i-update-image-in-edit-view-in-laravel
+             */
+            /*
+            $imageName = '';
+            if ($request->hasFile('file')) {
+                $imageName = time() . '.' . $request->file->extension();
+                $request->file->storeAs('public/images', $imageName);
+                if ($post->image) {
+                    Storage::delete('public/images/' . $post->image);
+                }
+            } else {
+                $imageName = $post->image;
             }
-        } else {
-            $imageName = $post->image;
+            $postData = ['title' => $request->title, 'category' => $request->category, 'content' => $request->content, 'image' => $imageName];
+            $post->update($postData);
+            */
+
+            $request->session()->flash('success', 'Data berhasil diubah!');
+            return redirect()->route('admin.profile.index');
         }
-        $postData = ['title' => $request->title, 'category' => $request->category, 'content' => $request->content, 'image' => $imageName];
-        $post->update($postData);
-        */
 
         return view('admin::profile.edit', [
             'name'  => $user->name,
             'email' => $user->email,
             'foto'  => $foto,
         ]);
+    }
+
+    public function update(Request $request): RedirectResponse
+    {
+        $user_id = Auth::id();
+        $validator = Validator::make($request->all(), [
+            'name'          => 'required|max:255',
+            'email'         => "required|unique:users,email,{$user_id}|email:rfc,dns|max:255",
+            'product_image' => 'mimes:jpg,png|max:2048'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()
+                ->route('admin.profile.edit')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        // Retrieve the validated input...
+        $validated = $validator->validated();
+
+        // Retrieve a portion of the validated input...
+        $validated = $validator->safe()->only(['name', 'email']);
+        $validated = $validator->safe()->except(['name', 'email']);
+
+        // Store the blog post...
+        $manager  = new Image(new Driver());
+        $image    = $manager->read($request->file('product_image'));
+        $filename = time() . '_300x300.webp';
+        $image->scale(300);
+        $image->toWebp(65)->save(public_path('uploads/') . $filename);
+
+        DB::table('usermeta')
+            ->updateOrInsert(
+                ['user_id' => $user_id, 'key' => 'cr_user_foto'],
+                ['user_id' => $user_id, 'key' => 'cr_user_foto', 'value' => $filename]
+            );
+
+        $request->session()->flash('success', 'Data berhasil diubah!');
+        return redirect()->route('admin.profile.index');
     }
 
     public function edit_ajax(Request $request)
@@ -226,21 +243,5 @@ class ProfileController extends Controller
         }
 
         return view('admin::profile.change_password');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,6 +59,10 @@ Route::group(['namespace' => 'Modules\Admin\Http\Controllers'], function () {
                         'as'   => 'profile.edit',
                         'uses' => 'ProfileController@edit',
                     ]);
+                    Route::post('update', [
+                        'as'  => 'profile.update',
+                        'uses' => 'ProfileController@update',
+                    ]);
 
                     Route::get('test-form', function () {
                         return view('admin::profile.test_req');
@@ -80,9 +85,10 @@ Route::group(['namespace' => 'Modules\Admin\Http\Controllers'], function () {
                         'uses' => 'UserController@index',
                     ]);
 
-                    Route::get('edit/{id}', function (string $id) {
-                        return "Your ID: " . $id;
-                    })->where(['id' => '[0-9]+'])->name('user.edit');
+                    Route::get('edit/{id}', [
+                        'as'   => 'user.edit',
+                        'uses' => 'UserController@edit',
+                    ])->where(['id' => '[0-9]+']);
                 });
             });
 

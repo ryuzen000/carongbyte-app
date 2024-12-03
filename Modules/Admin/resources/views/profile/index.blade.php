@@ -63,9 +63,18 @@
             min-width: 100px;
         }
     </style>
+
+    @if ($message = Session::get('success'))
+        <div class="alert alert-success alert-block">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <strong>{{ $message }}</strong>
+        </div>
+    @endif
+
     <div class="cr-edit-profile-btn">
         <a class="rounded" href="{{ route('admin.profile.edit') }}">Edit Profile</a>
     </div>
+
     <div class="row">
         <div class="col-12 col-md-2">
             <div class="cr-user-avatar">

@@ -78,7 +78,7 @@
 
             <label for="frmInputImage">Photo Profile</label><br>
             <input type="file" id="frmInputImage" name="product_image">
-            <small id="addressHelp" class="form-text text-muted">Gambar harus format JPG.</small>
+            <small id="addressHelp" class="form-text text-muted">Gambar harus format JPG/PNG.</small>
         </div>
         <button type="submit" class="btn btn-primary" name="frm_submit" value="1">Update</button>
     </form>

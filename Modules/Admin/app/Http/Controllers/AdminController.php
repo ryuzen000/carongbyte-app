@@ -17,10 +17,10 @@ class AdminController extends Controller
     {
         $user   = User::find(Auth::id());
         $result = [
-            'nama' => $user->name
+            'name' => $user->name
         ];
-        $result['id_jabatan'] = $user->roles[0]->id;
-        $result['jabatan']    = $user->roles[0]->name;
+        $result['role_id'] = $user->roles[0]->id;
+        $result['role_name']    = $user->roles[0]->name;
 
         /*
          *
@@ -43,53 +43,5 @@ class AdminController extends Controller
             'data'         => $result,
             'jml_pengguna' => $user_count,
         ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('admin::create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Show the specified resource.
-     */
-    public function show($id)
-    {
-        return view('admin::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-    {
-        return view('admin::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id)
-    {
-        //
     }
 }
