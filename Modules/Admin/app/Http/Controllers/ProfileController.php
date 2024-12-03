@@ -56,11 +56,18 @@ class ProfileController extends Controller
 
         if ($request->isMethod('post')) {
             $user_id   = Auth::id();
+            $messages  = [
+                'name.required'       => 'Nama tidak boleh kosong',
+                'email.required'      => 'Alamat email tidak boleh kosong!',
+                'email.unique'        => 'Alamat email ini sudah terdaftar!',
+                'email.email'         => 'Alamat email tidak valid!',
+                'product_image.mimes' => 'Format foto harus JPG/PNG!',
+            ];
             $validated = $request->validate([
                 'name'          => 'required|max:255',
                 'email'         => "required|unique:users,email,{$user_id}|email:rfc,dns|max:255",
                 'product_image' => 'mimes:jpg,png|max:2048',
-            ]);
+            ], $messages);
 
             /*if ($request->exists('name')) {
                 
