@@ -69,9 +69,8 @@ class ProfileController extends Controller
                 'product_image' => 'mimes:jpg,png|max:2048',
             ], $messages);
 
-            /*if ($request->exists('name')) {
-                
-            }*/
+            /*if ($request->exists('name')) {}*/
+            
             $user->name  = $request->name;
             $user->email = $request->email;
             $user->save();

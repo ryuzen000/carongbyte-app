@@ -10,28 +10,22 @@ use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
+    public function index()
+    {
+        return redirect()->route('admin.dashboard');
+    }
+
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function dashboard()
     {
         $user   = User::find(Auth::id());
         $result = [
             'name' => $user->name
         ];
-        $result['role_id'] = $user->roles[0]->id;
-        $result['role_name']    = $user->roles[0]->name;
-
-        /*
-         *
-         * Menampilkan data user lengkap dengan jabatannya 
-         * 
-        $users  = DB::table('role_user')
-            ->join('roles', 'role_user.role_id', '=', 'roles.id')
-            ->join('users', 'role_user.user_id', '=', 'users.id')
-            ->select('users.name as nama_pengguna', 'roles.name as nama_jabatan')
-            ->get();
-        */
+        $result['role_id']   = $user->roles[0]->id;
+        $result['role_name'] = $user->roles[0]->name;
 
         /**
          * 
